@@ -35,16 +35,16 @@ const Juego = () => {
             let bien = 0;
             let regular = 0;
             let mal = 0;
-            const contarNumeros = {};  // To track occurrences in the secret number
-
-            // Count occurrences of each digit in `azar` to handle duplicates
+            const contarNumeros = {};
+    
+            // Contar ocurrencias en `azar`
             azar.forEach((num) => {
                 contarNumeros[num] = (contarNumeros[num] || 0) + 1;
             });
-
+    
             miNumero.forEach((num, idx) => {
                 const parsedNum = parseInt(num);
-
+    
                 if (parsedNum === azar[idx]) {
                     bien++;
                     contarNumeros[parsedNum]--;
@@ -55,57 +55,56 @@ const Juego = () => {
                     mal++;
                 }
             });
-
-            (bien===4) && (navegacion("/victoria"))
-
-            
-            setResultados([
-                ...resultados,
-                { fila: filaActual, feedback: { bien, regular, mal } }
+    
+            (bien === 4) && (navegacion("/victoria"));
+    
+            // Aquí guardamos miNumero junto con el feedback
+            setResultados((prevResultados) => [
+                ...prevResultados,
+                { fila: filaActual, numero: miNumero, feedback: { bien, regular, mal } }
             ]);
+            
             setFilaActual(filaActual + 1);
             setMiNumero([]);
             
+            // Verificar si se ha perdido
             if (filaActual === 2) {
                 setAlerta(true);
                 setTimeout(() => {
-                        setAlerta(false);
-                        navegacion("/derrota");
-                    
+                    setAlerta(false);
+                    navegacion("/derrota");
                 }, 2000);
             }
         }
     };
+    
 
     return (
         <>
             <MagicMotion>
-            {azar}
+                {azar}
                 <div className='cajas_contenedor'>
                     {[...Array(3)].map((_, index) => (
                         <Cajas
                             key={index}
-                            numeroUsuario={index === filaActual ? miNumero : []}
+                            numeroUsuario={index === filaActual ? miNumero : resultados[index]?.numero || []} // Mostrar miNumero si es la fila actual
                             isAdivinado={index < filaActual}
                             feedback={resultados.find(r => r.fila === index)?.feedback || { bien: 0, regular: 0, mal: 0 }}
                         />
                     ))}
                 </div>
-
-
-
                 <div className='botones_numeros'>
                     {numeros.map(num => (
                         <button key={num} onClick={escribirNumero}>{num}</button>
                     ))}
                     <button onClick={borrarNumero}>Borrar</button>
                 </div>
-
                 <button onClick={enviarRespuesta}>Enviar</button>
-                <div className={(alerta) ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}> Perdiste </div>
+                <div className={alerta ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}> Perdiste </div>
             </MagicMotion>
         </>
     );
+    
 };
 
 export default Juego;

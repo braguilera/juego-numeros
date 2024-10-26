@@ -24,7 +24,6 @@ const Cajas = ({ numeroUsuario, isAdivinado, feedback }) => {
                     ))}
                 </div>
                 <div className='feedback'>
-                    {/* Contadores de bien, regular y mal */}
                     <div style={{ backgroundColor: 'green', fontWeight: 'bold' }}>{feedback.bien}</div>
                     <div style={{ backgroundColor: 'orange', fontWeight: 'bold' }}>{feedback.regular}</div>
                     <div style={{ backgroundColor: 'red', fontWeight: 'bold' }}>{feedback.mal}</div>
