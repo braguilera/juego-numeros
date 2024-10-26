@@ -9,19 +9,18 @@ const Juego = () => {
     const navegacion = useNavigate();
     const { azar, setAzar } = useContext(Contexto);
     const [miNumero, setMiNumero] = useState([]);
+    const [filaActual, setFilaActual] = useState(0);
+    const [resultados, setResultados] = useState([]);
+    const [alerta, setAlerta] = useState(false)
 
     useEffect(() => {
-        const nuevosNumeros = [];
-        for (let i = 0; i < 4; i++) {
-            nuevosNumeros.push(Math.floor(Math.random() * 9));
-        }
+        const nuevosNumeros = Array.from({ length: 4 }, () => Math.floor(Math.random() * 9));
         setAzar(nuevosNumeros);
     }, []);
 
     const escribirNumero = (e) => {
-        const nuevoNumero = e.target.innerHTML;
         if (miNumero.length < 4) {
-            setMiNumero([...miNumero, nuevoNumero]);
+            setMiNumero([...miNumero, e.target.innerHTML]);
         }
     };
 
@@ -31,25 +30,79 @@ const Juego = () => {
         }
     };
 
+    const enviarRespuesta = () => {
+        if (miNumero.length === 4) {
+            let bien = 0;
+            let regular = 0;
+            let mal = 0;
+            const contarNumeros = {};  // To track occurrences in the secret number
+
+            // Count occurrences of each digit in `azar` to handle duplicates
+            azar.forEach((num) => {
+                contarNumeros[num] = (contarNumeros[num] || 0) + 1;
+            });
+
+            miNumero.forEach((num, idx) => {
+                const parsedNum = parseInt(num);
+
+                if (parsedNum === azar[idx]) {
+                    bien++;
+                    contarNumeros[parsedNum]--;
+                } else if (azar.includes(parsedNum) && contarNumeros[parsedNum] > 0) {
+                    regular++;
+                    contarNumeros[parsedNum]--;
+                } else {
+                    mal++;
+                }
+            });
+
+            (bien===4) && (navegacion("/victoria"))
+
+            
+            setResultados([
+                ...resultados,
+                { fila: filaActual, feedback: { bien, regular, mal } }
+            ]);
+            setFilaActual(filaActual + 1);
+            setMiNumero([]);
+            
+            if (filaActual === 2) {
+                setAlerta(true);
+                setTimeout(() => {
+                        setAlerta(false);
+                        navegacion("/derrota");
+                    
+                }, 2000);
+            }
+        }
+    };
+
     return (
         <>
             <MagicMotion>
+            {azar}
                 <div className='cajas_contenedor'>
-                    {[...Array(10)].map((_, index) => (
-                        <Cajas key={index} />
+                    {[...Array(3)].map((_, index) => (
+                        <Cajas
+                            key={index}
+                            numeroUsuario={index === filaActual ? miNumero : []}
+                            isAdivinado={index < filaActual}
+                            feedback={resultados.find(r => r.fila === index)?.feedback || { bien: 0, regular: 0, mal: 0 }}
+                        />
                     ))}
                 </div>
 
-                {miNumero.join('')}
-                
+
+
                 <div className='botones_numeros'>
-                    {numeros.map((num) => (
+                    {numeros.map(num => (
                         <button key={num} onClick={escribirNumero}>{num}</button>
                     ))}
                     <button onClick={borrarNumero}>Borrar</button>
                 </div>
 
-                <button>Enviar</button>
+                <button onClick={enviarRespuesta}>Enviar</button>
+                <div className={(alerta) ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}> Perdiste </div>
             </MagicMotion>
         </>
     );

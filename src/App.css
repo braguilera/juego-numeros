@@ -1,6 +1,7 @@
 #root{
   background-color: #131416;
-  color: #f5f4f4;
+
+  position: relative;
 }
 
 .cajas_contenedor{
@@ -9,6 +10,13 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+.caja_fila{
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  position: relative;
 }
 
 .cajas{
@@ -24,4 +32,51 @@
   align-items: center;
   border: 3px solid rgb(46, 46, 46);
   border-radius: 6px;
+}
+
+.feedback{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.feedback div{
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+  padding-bottom: 2px;
+}
+
+.alerta_derrota_activada{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: red;
+  color: white;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  scale:3;
+}
+
+.alerta_derrota_desactivada{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  background-color: transparent;
+  color: transparent;
+  scale: 0;
+  top: 0%;
+  right: 50%;
+  width: 100px;
+  height: 50px;
+  transform: translate(0%, -50%);
 }
