@@ -107,11 +107,11 @@ const Juego = () => {
                     </aside>
 
                     <div className='cajas_contenedor'>
-                        {/* Cambiamos el número de filas a 10 */}
+
                         {[...Array(10)].map((_, index) => (
                             <Cajas
                                 key={index}
-                                numeroUsuario={index === filaActual ? miNumero : resultados[index]?.numero || []} // Mostrar miNumero si es la fila actual
+                                numeroUsuario={index === filaActual ? miNumero : resultados[index]?.numero || []} 
                                 isAdivinado={index < filaActual}
                                 feedback={resultados.find(r => r.fila === index)?.feedback || { bien: 0, regular: 0, mal: 0 }}
                             />

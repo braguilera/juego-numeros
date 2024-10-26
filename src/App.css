@@ -94,17 +94,33 @@
   align-items: center;
 }
 
+.juego_header button{
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: #424242;
+  color: #a7a7a7;
+}
+
+.juego_header button:hover{
+  color: #131416;
+  background-color: #f5f4f4;
+  transition: background-color .2s ease, color .2s ease;
+
+}
+
 .juego_header_titulos{
   text-align: center;
 
 }
 
 .juego_header_titulos h1{
-  font-size: 2rem;
+  font-size: 3rem;
   margin: 10px 0 0 0;
 }
-
-
 
 .cajas_contenedor{
   display: flex;
@@ -127,13 +143,16 @@
 }
 
 .caja_item{
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 3px solid rgb(46, 46, 46);
   border-radius: 6px;
+  font-weight: bold;
+  font-size: 1.6rem;
+  padding-bottom: 3px;
 }
 
 .feedback{
@@ -183,8 +202,8 @@
 
 .botones_numeros_item button{
   width: 40px;
-  height: 55px;
-  font-size: 2rem;
+  height: 50px;
+  font-size: 1.6rem;
 
 }
 
@@ -194,9 +213,9 @@
 }
 
 .boton_enviar_numero{
-  height: 55px;
+  height: 50px;
   width: 30%;
-  font-size: 2rem;
+  font-size: 1.6rem;
   justify-content: center;
   margin-top: 8px;
 }
