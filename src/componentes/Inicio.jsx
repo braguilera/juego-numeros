@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Contexto from '../contexto/Contexto';
 import { MagicMotion } from 'react-magic-motion';
+import signoPregunta from '../iconos/pregunta.svg'
 
 const Inicio = () => {
     const navegacion = useNavigate();
@@ -16,24 +17,31 @@ const Inicio = () => {
     return (
         <>
         <MagicMotion>
-            <h1>Bienvenido</h1>
-            <h2>Selecciona la dificultad:</h2>
+        <section className='inicio'>
+            <h1>¡Bienvenido a Adivina el Número!</h1>
+            <h2>Pon a prueba tus habilidades para descubrir el número oculto.</h2>
+            <h3>Selecciona la dificultad</h3>
 
             <div className='inicio_dificultad'>
                 <button 
                 className={((dificultad==='repeticion') 
                 ? 'boton_jugar_activado' 
                 : 'boton_jugar')} 
-                onClick={() => seleccionarDificultad('repeticion')}>Con Repetición</button>
+                onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
 
                 <button 
                 className={((dificultad==='sinRepeticion') 
                 ? 'boton_jugar_activado' 
                 : 'boton_jugar')}  
-                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin Repetición</button>
+                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
+                
             </div>
 
-            <button className='boton_jugar' onClick={()=>navegacion("/juego")}>jugar</button>
+            <button className='boton_iniciar_partida' onClick={()=>navegacion("/juego")}>Empezar a Jugar</button>
+
+            <button className='boton_como_jugar' onClick={()=>navegacion('/comoJugar')}>¿Cómo jugar?</button>
+
+        </section>
         </MagicMotion>
         </>
     );

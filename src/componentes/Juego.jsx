@@ -96,27 +96,40 @@ const Juego = () => {
     return (
         <>
             <MagicMotion>
-                <button onClick={() => navegacion(-1)}>Volver</button>
-                <small>Jugando en la dificultad con números {(dificultad === 'repeticion') ? 'repetidos' : 'sin repetir'}</small>
-                <div className='cajas_contenedor'>
-                    {/* Cambiamos el número de filas a 10 */}
-                    {[...Array(10)].map((_, index) => (
-                        <Cajas
-                            key={index}
-                            numeroUsuario={index === filaActual ? miNumero : resultados[index]?.numero || []} // Mostrar miNumero si es la fila actual
-                            isAdivinado={index < filaActual}
-                            feedback={resultados.find(r => r.fila === index)?.feedback || { bien: 0, regular: 0, mal: 0 }}
-                        />
-                    ))}
-                </div>
-                <div className='botones_numeros'>
-                    {numeros.map(num => (
-                        <button key={num} onClick={escribirNumero}>{num}</button>
-                    ))}
-                    <button onClick={borrarNumero}>Borrar</button>
-                </div>
-                <button onClick={enviarRespuesta}>Enviar</button>
-                <div className={alerta ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>Perdiste</div>
+                <section className='juego'>
+                    <aside className='juego_header'>
+                        <button onClick={() => navegacion(-1)}>Volver</button>
+                        <div className='juego_header_titulos'>
+                            <h1>¡Adivina el Número!</h1>
+                            <small>Jugando en la dificultad con números {(dificultad === 'repeticion') ? 'repetidos' : 'sin repetir'}</small>
+                        </div>    
+                        <button>Dark mode</button>
+                    </aside>
+
+                    <div className='cajas_contenedor'>
+                        {/* Cambiamos el número de filas a 10 */}
+                        {[...Array(10)].map((_, index) => (
+                            <Cajas
+                                key={index}
+                                numeroUsuario={index === filaActual ? miNumero : resultados[index]?.numero || []} // Mostrar miNumero si es la fila actual
+                                isAdivinado={index < filaActual}
+                                feedback={resultados.find(r => r.fila === index)?.feedback || { bien: 0, regular: 0, mal: 0 }}
+                            />
+                        ))}
+                    </div>
+
+                    <div className='botones_numeros'>
+                        <div className='botones_numeros_item'>
+                            {numeros.map(num => (
+                                <button key={num} onClick={escribirNumero}>{num}</button>
+                            ))}
+                            <button onClick={borrarNumero}>Borrar</button>
+                        </div>
+                        <button onClick={enviarRespuesta} className='boton_enviar_numero'>Enviar</button>
+                    </div>
+                    
+                    <div className={alerta ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>Perdiste</div>
+                </section>
             </MagicMotion>
         </>
     );
