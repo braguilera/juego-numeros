@@ -12,10 +12,10 @@ const Cajas = () => {
     }, [azar]);
 
     return (
-        <div className='caja_contenedor'>
+        <div className='cajas'>
             {respuesta.map((num, index) => (
                 num !== ',' && (
-                    <div key={index} className='caja'>{num}</div>
+                    <div key={index} className='caja_item'>{num}</div>
                 )
             ))}
         </div>

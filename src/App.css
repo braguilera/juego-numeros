@@ -1,13 +1,27 @@
-.caja{
-  width: 30px;
-  height: 30px;
+#root{
+  background-color: #131416;
+  color: #f5f4f4;
+}
+
+.cajas_contenedor{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.cajas{
+  display: flex;
+  gap: 10px;
+}
+
+.caja_item{
+  width: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #232323;
-}
-
-.caja_contenedor{
-  display: flex;
-  background-color: aqua;
+  border: 3px solid rgb(46, 46, 46);
+  border-radius: 6px;
 }
