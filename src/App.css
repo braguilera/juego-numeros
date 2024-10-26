@@ -4,6 +4,19 @@
   position: relative;
 }
 
+/* Inicio */
+
+.boton_jugar_activado{
+  background-color: blue;
+}
+
+.boton_jugar{
+  background-color: red;
+  transition: background-color 1s ease;
+}
+
+/* Juego */
+
 .cajas_contenedor{
   display: flex;
   flex-direction: column;
