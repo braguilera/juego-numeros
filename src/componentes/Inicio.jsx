@@ -3,10 +3,12 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Contexto from '../contexto/Contexto';
 import { MagicMotion } from 'react-magic-motion';
+import { DarkMode } from './DarkMode';
+
 
 const Inicio = () => {
     const navegacion = useNavigate();
-    const { dificultad, setDificultad } = useContext(Contexto);
+    const { dificultad, setDificultad, isClaro, setIsClaro } = useContext(Contexto);
 
     const seleccionarDificultad = (dificultadSeleccionada) => {
         localStorage.setItem('dificultad', dificultadSeleccionada);
@@ -16,7 +18,12 @@ const Inicio = () => {
     return (
         <>
         <MagicMotion>
-        <section className='inicio'>
+        <section className='inicio' data-theme={isClaro ? "light" : "dark"}>
+
+            <DarkMode
+                isSeleccionado={isClaro}
+                cambio={()=>setIsClaro(!isClaro)}
+            />
             <h1>¡Bienvenido a Adivina el Número!</h1>
             <h2>Pon a prueba tus habilidades para descubrir el número oculto.</h2>
             <h3>Selecciona la dificultad</h3>
