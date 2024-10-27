@@ -3,12 +3,16 @@ import Contexto from '../contexto/Contexto';
 import { MagicMotion } from 'react-magic-motion';
 
 const Cajas = ({ numeroUsuario, isAdivinado, feedback, isVictoria }) => {
-    const { azar } = useContext(Contexto);
+    const { isClaro } = useContext(Contexto);
 
-    const estilo = {
+    const estilo = (!isClaro) ? {
         backgroundColor: isAdivinado ? '#efefef' : '#232323',
         color: isAdivinado ? '#232323' : '#efefef',
         border: isAdivinado ? '3px solid #efefef' : '3px solid #2e2e2e'
+    } : {
+        backgroundColor: isAdivinado ? '#232323' : '#d3d3d3',
+        color: isAdivinado ? '#efefef' : '#232323',
+        border: isAdivinado ? '3px solid #2e2e2e' : '3px solid #dfdfdf'
     }
 
     return (

@@ -7,8 +7,8 @@
   --color-bg: #131416;
   --color-bt-principal: #4B83C1;
   --color-claro-principal: #f5f4f4;
-  --color-gris-principal: #5c5c5c;
-  --color-gris-secundario:#818181;
+  --color-gris-principal: #b0b0b0;
+  --color-gris-secundario: #b0b0b049;
   --numero-principal: #424242;
   --numero-secundario: #EFEFEF;
   --toggle-bg: #283250;
@@ -19,10 +19,10 @@
   --color-bg: #f5f5f5;
   --color-bt-principal: #357ABD;
   --color-claro-principal: #131416; 
-  --color-gris-principal: #b0b0b0;
-  --color-gris-secundario: #d3d3d3;
-  --numero-principal: #212121;
-  --numero-secundario: #616161;
+  --color-gris-principal: #8b8b8b;
+  --color-gris-secundario:#d4d4d4;
+  --numero-principal: #c0c0c0;
+  --numero-secundario: #666666;
   --toggle-bg: #F1EB98;
   --toggle-button: #FDD000;
 }
@@ -42,8 +42,14 @@
   transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
+.inicio .cambio_container{
+  bottom: 0;
+  right: -40%;
+}
+
 .inicio h1{
   font-size: 4rem;
+  margin: 0;
 }
 
 .inicio button{
@@ -69,16 +75,16 @@
 
 .boton_jugar{
   width: 100%;
-  color: var(--color-gris-principal);
-  border: 2px solid var(--color-gris-principal);
+  color: #a5a5a5;
+  border: 2px solid var(--color-gris-secundario);
   background-color: transparent;
   border-radius: 8px;
   transition: background-color .3s ease, color .3s ease;
 }
 
 .boton_jugar:hover{
-  color: var(--color-claro-principal);
-  background-color: var(--color-gris-principal);
+  color: var(--color-gris-principal);
+  background-color: var(--color-gris-secundario);
 }
 
 .boton_iniciar_partida{
@@ -87,7 +93,7 @@
   font-size: 1.5rem;
   font-weight: bold;
   border-radius: 8px;
-  color: var(--color-claro-principal);
+  color: #f5f4f4;
   background-color: var(--color-bt-principal);
   border: none;
   margin-bottom: 10px;
@@ -105,7 +111,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  color: var(--color-gris-secundario);
+  color: #818181;
   background-color: transparent;
   border: none;
   gap: 4px;
@@ -123,10 +129,12 @@
   width: 100%;
   height: 100vh;
   background-color: var(--color-bg);
+  color: var(--color-claro-principal);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
 .juego_header{
@@ -146,7 +154,7 @@
   font-weight: bold;
   cursor: pointer;
   background-color: var(--numero-principal);
-  color: #a7a7a7;
+  color: var(--numero-secundario);
 }
 
 .juego_header button:hover{
@@ -225,6 +233,7 @@
   justify-content: center;
   align-items: center;
   gap: 6px;
+  color: #f5f4f4;
 }
 
 .feedback div{
@@ -298,8 +307,9 @@
   border: 1px solid rgba(19, 20, 22, 0.3);
   width: 40%;
   height: auto;
+  color: #f5f4f4;
   position: absolute;
-  top: 10%;
+  top: 8%;
   text-align: center;
   padding: 20px 40px;
   border-radius: 16px;
@@ -320,9 +330,26 @@
   cursor: pointer;
 }
 
+.alerta_victoria_activada .boton_jugar_activado{
+  background-color: #f5f5f5;
+  color: #131416;
+  border: 2px solid #f5f5f5;
+}
+
+.alerta_victoria_activada .boton_jugar{
+  color: #b0b0b0af;
+  border: 2px solid #b0b0b049;
+}
+
+.alerta_victoria_activada .boton_jugar:hover{
+  background-color: #b0b0b049;
+  color: #b0b0b0;
+}
+
 .alerta_victoria_activada .boton_iniciar_partida{
   width: 80%;
   cursor: pointer;
+  color: #f5f4f4;
 }
 
 .alerta_victoria_desactivada{
@@ -351,8 +378,8 @@
   border: 1px solid rgba(19, 20, 22, 0.3);
   text-align: center;
   position: absolute;
-  color: var(--color-claro-principal);
-  top: 10%;
+  color: #f5f4f4;
+  top: 8%;
   width: 40%;
   height: auto;
   padding: 20px 40px;
@@ -373,9 +400,26 @@
   cursor: pointer;
 }
 
+.alerta_derrota_activada .boton_jugar_activado{
+  background-color: #f5f5f5;
+  color: #131416;
+  border: 2px solid #f5f5f5;
+}
+
+.alerta_derrota_activada .boton_jugar{
+  color: #b0b0b0af;
+  border: 2px solid #b0b0b049;
+}
+
+.alerta_derrota_activada .boton_jugar:hover{
+  background-color: #b0b0b049;
+  color: #b0b0b0;
+}
+
 .alerta_derrota_activada .boton_iniciar_partida{
   width: 80%;
   cursor: pointer;
+  color: #f5f4f4;
 }
 
 .alerta_derrota_desactivada{
@@ -394,9 +438,8 @@
 /* Dark Mode */
 
 .cambio_container{
-  position: absolute;
-  top: 2em;
-  right: 2em;
+  position: relative;
+  bottom: 10%;
 }
 
 .moon{

@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import Contexto from '../contexto/Contexto';
 import { MagicMotion } from 'react-magic-motion';
 import Cajas from './Cajas';
+import { DarkMode } from './DarkMode';
 
 const Juego = () => {
     const numeros = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
     const navegacion = useNavigate();
-    const { azar, setAzar, dificultad, setDificultad } = useContext(Contexto);
+    const { azar, setAzar, dificultad, setDificultad, isClaro, setIsClaro } = useContext(Contexto);
     const [miNumero, setMiNumero] = useState([]);
     const [filaActual, setFilaActual] = useState(0);
     const [resultados, setResultados] = useState([]);
@@ -120,14 +121,17 @@ const Juego = () => {
     return (
         <>
             <MagicMotion>
-                <section className='juego'>
+                <section className='juego' data-theme={isClaro ? "light" : "dark"}>
                     <aside className='juego_header'>
                         <button onClick={() => navegacion('/')}>Volver</button>
                         <div className='juego_header_titulos'>
                             <h1>¡Adivina el Número!</h1>
                             <small>Jugando en la dificultad con números {(dificultad === 'repeticion') ? 'repetidos' : 'sin repetir'}</small>
                         </div>
-                        <button>Dark mode</button>
+                        <DarkMode
+                            isSeleccionado={isClaro}
+                            cambio={()=>setIsClaro(!isClaro)}
+                        />
                     </aside>
 
                     <div className='cajas_contenedor'>
@@ -153,8 +157,8 @@ const Juego = () => {
                     </div>
 
                     <div className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>
-                            <h1>Derrota</h1>
-                            <h2>¡Casi lo logras! El número secreto era: {numeroVictoria}</h2>
+                            <h1>¡Derrota!</h1>
+                            <h2>Casi lo logras, el número secreto era: {numeroVictoria}</h2>
                     
                             <div className='inicio_dificultad'>
                             <button 
@@ -170,11 +174,11 @@ const Juego = () => {
                     </div>
 
                     <div className={alertaVictoria ? 'alerta_victoria_activada' : 'alerta_victoria_desactivada'}>
-                        <h1>Victoria</h1>
+                        <h1>¡Victoria!</h1>
                         <h2>
                             {filaVictoria === 0 
-                                ? '¡Adivinaste el número en el primer intento!' 
-                                : `¡Increíble! ¡Adivinaste el número en ${filaVictoria + 1} intentos!`}
+                                ? '¡Increíble! Adivinaste el número en el primer intento' 
+                                : `Adivinaste el número en ${filaVictoria + 1} intentos`}
                         </h2>
                         <div className='inicio_dificultad'>
                             <button 

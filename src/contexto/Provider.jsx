@@ -8,7 +8,6 @@ const Provider = ({children}) => {
     const [isClaro, setIsClaro] = useState(false);
 
     useEffect(() => {
-        // Verificamos si hay una dificultad guardada en localStorage
         const dificultadGuardada = localStorage.getItem('dificultad');
         if (dificultadGuardada) {
             setDificultad(dificultadGuardada);
