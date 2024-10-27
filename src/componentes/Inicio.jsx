@@ -34,7 +34,6 @@ const Inicio = () => {
                 ? 'boton_jugar_activado' 
                 : 'boton_jugar')}  
                 onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
-                
             </div>
 
             <button className='boton_iniciar_partida' onClick={()=>navegacion("/juego")}>Empezar a Jugar</button>
