@@ -26,26 +26,34 @@ const Inicio = () => {
             />
             <h1>¡Bienvenido a Adivina el Número!</h1>
             <h2>Pon a prueba tus habilidades para descubrir el número oculto.</h2>
-            <h3>Selecciona la dificultad</h3>
 
-            <div className='inicio_dificultad'>
-                <button 
-                className={((dificultad==='repeticion') 
-                ? 'boton_jugar_activado' 
-                : 'boton_jugar')} 
-                onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
+            <article className='inicio_contenedor'>
 
-                <button 
-                className={((dificultad==='sinRepeticion') 
-                ? 'boton_jugar_activado' 
-                : 'boton_jugar')}  
-                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
-            </div>
+                <div className='dificultad_container'>
+                    <h3>Selecciona la dificultad</h3>
 
-            <button className='boton_iniciar_partida' onClick={()=>navegacion("/juego")}>Empezar a Jugar</button>
+                    <div className='inicio_dificultad'>
+                        <button 
+                        className={((dificultad==='repeticion') 
+                        ? 'boton_jugar_activado' 
+                        : 'boton_jugar')} 
+                        onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
 
-            <button className='boton_como_jugar' onClick={()=>navegacion('/comoJugar')}>¿Cómo jugar?</button>
+                        <button 
+                        className={((dificultad==='sinRepeticion') 
+                        ? 'boton_jugar_activado' 
+                        : 'boton_jugar')}  
+                        onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
+                    </div>
 
+                </div>
+                <div className='jugar_container'>
+                    <button className='boton_iniciar_partida' onClick={()=>navegacion("/juego")}>Empezar a Jugar</button>
+
+                    <button className='boton_como_jugar' onClick={()=>navegacion('/comoJugar')}>¿Cómo jugar?</button>
+
+                </div>
+            </article>
         </section>
         </MagicMotion>
         </>

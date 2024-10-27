@@ -46,6 +46,30 @@
   transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out;
 }
 
+.inicio_contenedor{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.dificultad_container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10%;
+}
+
+.jugar_container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .inicio .cambio_container{
   bottom: 0;
   right: -40%;
@@ -124,6 +148,12 @@
   background-repeat: no-repeat;
   background-position: start;
   background-position-y: center;
+  scale: 1;
+  transition: scale .5s ease;
+}
+
+.boton_como_jugar:hover{
+  scale: 1.1;
 }
 
 
@@ -159,13 +189,12 @@
   cursor: pointer;
   background-color: var(--numero-principal);
   color: var(--numero-secundario);
+  transition: background-color .2s ease, color .2s ease;
 }
 
 .juego_header button:hover{
   color: var(--color-bg);
   background-color: var(--color-claro-principal);
-  transition: background-color .2s ease, color .2s ease;
-
 }
 
 .juego_header_titulos{
@@ -315,6 +344,9 @@
   height: 100vh;
   background-color: var(--color-bg);
   color: var(--color-claro-principal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .comoJugar h1{
@@ -322,11 +354,37 @@
   font-size: 2.5rem;
 }
 
+.comoJugar button{
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  background-color: var(--numero-principal);
+  color: var(--numero-secundario);
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.comoJugar button:hover {
+  color: var(--color-bg);
+  background-color: var(--color-claro-principal);
+}
+
 .comoJugar_header{
+  max-width: 1200px;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
+}
+
+.comoJugar_main{
+  padding: 10px;
+  max-width: 1200px;
+
+
 }
 
 /* Alertas de victoria y derrota */
