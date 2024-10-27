@@ -308,6 +308,27 @@
   margin-top: 8px;
 }
 
+/*Como jugar*/
+
+.comoJugar{
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-claro-principal);
+}
+
+.comoJugar h1{
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+.comoJugar_header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
 /* Alertas de victoria y derrota */
 
 .alerta_victoria_activada{
