@@ -16,7 +16,7 @@ const Juego = () => {
     const [alertaVictoria, setAlertaVictoria] = useState(false);
     const [filaVictoria, setFilaVictoria] = useState(null);
     const [numeroVictoria, setNumeroVictoria] = useState();
-    const [desactivados, setDesactivados] = useState([]); // Nuevo estado para los números desactivados
+    const [desactivados, setDesactivados] = useState([]);
 
     useEffect(() => {
         generarNumeroAleatorio();
@@ -24,17 +24,34 @@ const Juego = () => {
 
     const generarNumeroAleatorio = () => {
         let nuevosNumeros;
+    
         if (dificultad === 'repeticion') {
-            nuevosNumeros = Array.from({ length: 4 }, () => Math.floor(Math.random() * 10));
+            // Generar los primeros tres dígitos de manera aleatoria
+            nuevosNumeros = [
+                Math.floor(Math.random() * 10),
+                Math.floor(Math.random() * 10),
+                Math.floor(Math.random() * 10)
+            ];
+            
+            // Escoger uno de los tres dígitos generados y repetirlo en la cuarta posición
+            const indiceAleatorio = Math.floor(Math.random() * 3);
+            nuevosNumeros.push(nuevosNumeros[indiceAleatorio]);
+            
+            // Mezclar el array para que el dígito repetido no siempre quede en la última posición
+            nuevosNumeros = nuevosNumeros.sort(() => Math.random() - 0.5);
+    
         } else {
+            // Generación sin repetición
             const uniqueDigits = new Set();
             while (uniqueDigits.size < 4) {
                 uniqueDigits.add(Math.floor(Math.random() * 10));
             }
             nuevosNumeros = Array.from(uniqueDigits);
         }
+    
         setAzar(nuevosNumeros);
     };
+    
 
     const seleccionarDificultad = (dificultadSeleccionada) => {
         localStorage.setItem('dificultad', dificultadSeleccionada);
@@ -48,12 +65,12 @@ const Juego = () => {
         setAlertaDerrota(false);
         setAlertaVictoria(false);
         setFilaVictoria(null);
-        setDesactivados([]); // Reinicia los números desactivados
-        generarNumeroAleatorio(); // Regenera el número al reiniciar
+        generarNumeroAleatorio();
+        setDesactivados([]) // Regenera el número al reiniciar
     };
 
     const escribirNumero = (e) => {
-        if (filaVictoria !== null || desactivados.includes(Number(e.target.innerHTML))) {
+        if (filaVictoria !== null) {
             return;
         }
 
@@ -78,24 +95,38 @@ const Juego = () => {
             let regular = 0;
             let mal = 0;
             const contarNumeros = {};
-
+        
+            // Contar las ocurrencias de cada número en el número secreto (azar)
             azar.forEach((num) => {
                 contarNumeros[num] = (contarNumeros[num] || 0) + 1;
             });
-
+        
+            // Paso 1: Contar los aciertos exactos (bien)
             miNumero.forEach((num, idx) => {
                 const parsedNum = parseInt(num);
-
+        
                 if (parsedNum === azar[idx]) {
                     bien++;
-                    contarNumeros[parsedNum]--;
-                } else if (azar.includes(parsedNum) && contarNumeros[parsedNum] > 0) {
-                    regular++;
-                    contarNumeros[parsedNum]--;
-                } else {
-                    mal++;
+                    contarNumeros[parsedNum]--; // Reducir la cuenta ya que este número está en la posición correcta
                 }
             });
+        
+            // Paso 2: Contar los números en posición incorrecta (regular) y los incorrectos (mal)
+            miNumero.forEach((num, idx) => {
+                const parsedNum = parseInt(num);
+        
+                // Solo procesar si no es un acierto exacto
+                if (parsedNum !== azar[idx]) {
+                    if (azar.includes(parsedNum) && contarNumeros[parsedNum] > 0) {
+                        regular++;
+                        contarNumeros[parsedNum]--; // Reducir la cuenta ya que este número se ha usado como regular
+                    } else {
+                        mal++;
+                    }
+                }
+            });
+        
+        
 
             if (bien === 4) {
                 setFilaVictoria(filaActual);
@@ -131,6 +162,7 @@ const Juego = () => {
         <>
             <MagicMotion>
                 <section className='juego' data-theme={isClaro ? "light" : "dark"}>
+                {azar}
                     <aside className='juego_header'>
                         <button onClick={() => navegacion('/')}>Volver</button>
                         <div className='juego_header_titulos'>
@@ -139,7 +171,7 @@ const Juego = () => {
                         </div>
                         <DarkMode
                             isSeleccionado={isClaro}
-                            cambio={() => setIsClaro(!isClaro)}
+                            cambio={()=>setIsClaro(!isClaro)}
                         />
                     </aside>
 
@@ -157,7 +189,7 @@ const Juego = () => {
 
                     <div className='botones_numeros'>
                         <div className='botones_numeros_item'>
-                            {numeros.map((num) => (
+                            {numeros.map(num => (
                                 <button
                                     key={num}
                                     onClick={escribirNumero}
@@ -171,6 +203,43 @@ const Juego = () => {
                             <button onClick={borrarNumero}>Borrar</button>
                         </div>
                         <button onClick={enviarRespuesta} className='boton_enviar_numero' disabled={filaVictoria !== null}>Enviar</button>
+                    </div>
+
+                    <div className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>
+                            <h1>¡Derrota!</h1>
+                            <h2>Casi lo logras, el número secreto era: {numeroVictoria}</h2>
+                    
+                            <div className='inicio_dificultad'>
+                            <button 
+                                className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
+                                onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
+
+                            <button 
+                                className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
+                                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
+                            </div>
+
+                            <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
+                    </div>
+
+                    <div className={alertaVictoria ? 'alerta_victoria_activada' : 'alerta_victoria_desactivada'}>
+                        <h1>¡Victoria!</h1>
+                        <h2>
+                            {filaVictoria === 0 
+                                ? '¡Increíble! Adivinaste el número en el primer intento' 
+                                : `Adivinaste el número en ${filaVictoria + 1} intentos`}
+                        </h2>
+                        <div className='inicio_dificultad'>
+                            <button 
+                                className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
+                                onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
+
+                            <button 
+                                className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
+                                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
+                        </div>
+
+                        <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
                     </div>
                 </section>
             </MagicMotion>

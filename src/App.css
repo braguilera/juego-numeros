@@ -11,6 +11,8 @@
   --color-gris-secundario: #b0b0b049;
   --numero-principal: #424242;
   --numero-secundario: #EFEFEF;
+  --numero-desactivado-principal: #42424256;
+  --numero-desactivado-secundario: #efefef31;
   --toggle-bg: #283250;
   --toggle-button: #04A6FE;
 }
@@ -23,6 +25,8 @@
   --color-gris-secundario:#d4d4d4;
   --numero-principal: #c0c0c0;
   --numero-secundario: #666666;
+  --numero-desactivado-principal: #c0c0c056;
+  --numero-desactivado-secundario: #66666631;
   --toggle-bg: #F1EB98;
   --toggle-button: #FDD000;
 }
@@ -254,13 +258,13 @@
 }
 
 .botones_numeros .numero_desactivado{
-  background-color: #ce1c1c;
-  color: #f5f4f4;
+  background-color: var(--numero-desactivado-principal);
+  color: var(--numero-desactivado-secundario);
 }
 
 .botones_numeros .numero_desactivado:hover{
-  background-color: #ce1c1c;
-  color: #f5f4f4;
+  background-color: var(--numero-desactivado-principal);
+  color: var(--numero-desactivado-secundario);
 }
 
 .botones_numeros button{
