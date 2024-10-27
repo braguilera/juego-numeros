@@ -2,8 +2,14 @@ import React, { useContext } from 'react';
 import Contexto from '../contexto/Contexto';
 import { MagicMotion } from 'react-magic-motion';
 
-const Cajas = ({ numeroUsuario, isAdivinado, feedback }) => {
+const Cajas = ({ numeroUsuario, isAdivinado, feedback, isVictoria }) => {
     const { azar } = useContext(Contexto);
+
+    const estilo = {
+        backgroundColor: isAdivinado ? '#efefef' : '#232323',
+        color: isAdivinado ? '#232323' : '#efefef',
+        border: isAdivinado ? '3px solid #efefef' : '3px solid #2e2e2e'
+    }
 
     return (
         <>
@@ -14,15 +20,18 @@ const Cajas = ({ numeroUsuario, isAdivinado, feedback }) => {
                         <div
                             key={index}
                             className='caja_item'
-                            style={{
-                                backgroundColor: isAdivinado ? '#fff' : '#232323',
-                                color: isAdivinado ? '#232323' : '#fff'
-                            }}
+                            style={isVictoria ? {
+                            backgroundColor: 'green',
+                            color: '#efefef',
+                            border: '3px solid green'
+                            }
+                            : estilo }
                         >
                             {numeroUsuario[index]}
                         </div>
                     ))}
                 </div>
+
                 <div className='feedback'>
                     <div style={{ backgroundColor: 'green', fontWeight: 'bold' }}>{feedback.bien}</div>
                     <div style={{ backgroundColor: 'orange', fontWeight: 'bold' }}>{feedback.regular}</div>

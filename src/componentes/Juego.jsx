@@ -11,7 +11,8 @@ const Juego = () => {
     const [miNumero, setMiNumero] = useState([]);
     const [filaActual, setFilaActual] = useState(0);
     const [resultados, setResultados] = useState([]);
-    const [alerta, setAlerta] = useState(false);
+    const [alertaDerrota, setAlertaDerrota] = useState(false);
+    const [filaVictoria, setFilaVictoria] = useState(null); // Nueva variable para fila ganadora
 
     useEffect(() => {
         generarNumeroAleatorio();
@@ -32,6 +33,11 @@ const Juego = () => {
     };
 
     const escribirNumero = (e) => {
+        // Evitar escribir números si ya se ha ganado
+        if (filaVictoria !== null) {
+            return;
+        }
+
         if (miNumero.length < 4) {
             setMiNumero([...miNumero, e.target.innerHTML]);
         }
@@ -44,13 +50,17 @@ const Juego = () => {
     };
 
     const enviarRespuesta = () => {
+        // Si ya se ha ganado, no hacer nada
+        if (filaVictoria !== null) {
+            return;
+        }
+
         if (miNumero.length === 4) {
             let bien = 0;
             let regular = 0;
             let mal = 0;
             const contarNumeros = {};
 
-            // Contar ocurrencias en `azar`
             azar.forEach((num) => {
                 contarNumeros[num] = (contarNumeros[num] || 0) + 1;
             });
@@ -70,10 +80,9 @@ const Juego = () => {
             });
 
             if (bien === 4) {
-                navegacion("/victoria");
+                setFilaVictoria(filaActual); // Guarda la fila ganadora
             }
 
-            // Guardamos miNumero junto con el feedback
             setResultados((prevResultados) => [
                 ...prevResultados,
                 { fila: filaActual, numero: miNumero, feedback: { bien, regular, mal } }
@@ -82,13 +91,8 @@ const Juego = () => {
             setFilaActual(filaActual + 1);
             setMiNumero([]);
 
-            // Verificar si se ha perdido (cuando filaActual es 10)
-            if (filaActual === 9) {
-                setAlerta(true);
-                setTimeout(() => {
-                    setAlerta(false);
-                    navegacion("/derrota");
-                }, 2000);
+            if (filaActual === 9 && bien !== 4) {
+                setAlertaDerrota(true);
             }
         }
     };
@@ -97,6 +101,7 @@ const Juego = () => {
         <>
             <MagicMotion>
                 <section className='juego'>
+                {azar}
                     <aside className='juego_header'>
                         <button onClick={() => navegacion(-1)}>Volver</button>
                         <div className='juego_header_titulos'>
@@ -107,13 +112,13 @@ const Juego = () => {
                     </aside>
 
                     <div className='cajas_contenedor'>
-
                         {[...Array(10)].map((_, index) => (
                             <Cajas
                                 key={index}
                                 numeroUsuario={index === filaActual ? miNumero : resultados[index]?.numero || []} 
                                 isAdivinado={index < filaActual}
                                 feedback={resultados.find(r => r.fila === index)?.feedback || { bien: 0, regular: 0, mal: 0 }}
+                                isVictoria={index === filaVictoria} // Aplicar estilo solo a fila ganadora
                             />
                         ))}
                     </div>
@@ -125,10 +130,11 @@ const Juego = () => {
                             ))}
                             <button onClick={borrarNumero}>Borrar</button>
                         </div>
-                        <button onClick={enviarRespuesta} className='boton_enviar_numero'>Enviar</button>
+                        <button onClick={enviarRespuesta} className='boton_enviar_numero' disabled={filaVictoria !== null}>Enviar</button> {/* Deshabilitar si se ganó */}
                     </div>
                     
-                    <div className={alerta ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>Perdiste</div>
+                    <div className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>Perdiste</div>
+                    <div className={filaVictoria !== null ? 'alerta_victoria_activada' : 'alerta_victoria_desactivada'}>Ganaste</div>
                 </section>
             </MagicMotion>
         </>
