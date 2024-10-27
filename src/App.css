@@ -106,8 +106,10 @@
 .juego_header{
   display: flex;
   width: 100%;
+  max-width: 1200px;
   justify-content: space-around;
   align-items: center;
+  
 }
 
 .juego_header button{
@@ -351,18 +353,16 @@
 }
 
 .alerta_derrota_desactivada{
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
   position: absolute;
   background-color: transparent;
   color: transparent;
-  scale: 0;
-  top: 50%;
-  right: 50%;
-  width: 100px;
-  height: 50px;
-  transform: translate(-50%, -50%);
+  top: 10%;
+  width: 40%;
+  height: auto;
+  padding: 20px 40px;
 }
 
 /* Animaciones */
