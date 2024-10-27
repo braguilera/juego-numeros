@@ -2,9 +2,12 @@ import React from 'react'
 
 const Error = () => {
     return (
-    <div>
-        Pagina no existente
-    </div>
+    <>
+    <section className='error'>
+        <h1>Error: Esta página no existe!</h1>
+
+    </section>
+    </>
     )
 }
 

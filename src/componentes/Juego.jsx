@@ -162,7 +162,6 @@ const Juego = () => {
         <>
             <MagicMotion>
                 <section className='juego' data-theme={isClaro ? "light" : "dark"}>
-                {azar}
                     <aside className='juego_header'>
                         <button onClick={() => navegacion('/')}>Volver</button>
                         <div className='juego_header_titulos'>
