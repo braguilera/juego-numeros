@@ -253,6 +253,16 @@
   align-items: center;
 }
 
+.botones_numeros .numero_desactivado{
+  background-color: #ce1c1c;
+  color: #f5f4f4;
+}
+
+.botones_numeros .numero_desactivado:hover{
+  background-color: #ce1c1c;
+  color: #f5f4f4;
+}
+
 .botones_numeros button{
   border-radius: 6px;
   border: none;
@@ -279,7 +289,6 @@
   width: 40px;
   height: 50px;
   font-size: 1.6rem;
-  
 }
 
 .botones_numeros_item button:last-child{

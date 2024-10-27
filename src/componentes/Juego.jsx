@@ -16,6 +16,7 @@ const Juego = () => {
     const [alertaVictoria, setAlertaVictoria] = useState(false);
     const [filaVictoria, setFilaVictoria] = useState(null);
     const [numeroVictoria, setNumeroVictoria] = useState();
+    const [desactivados, setDesactivados] = useState([]); // Nuevo estado para los números desactivados
 
     useEffect(() => {
         generarNumeroAleatorio();
@@ -33,7 +34,6 @@ const Juego = () => {
             nuevosNumeros = Array.from(uniqueDigits);
         }
         setAzar(nuevosNumeros);
-
     };
 
     const seleccionarDificultad = (dificultadSeleccionada) => {
@@ -48,11 +48,12 @@ const Juego = () => {
         setAlertaDerrota(false);
         setAlertaVictoria(false);
         setFilaVictoria(null);
+        setDesactivados([]); // Reinicia los números desactivados
         generarNumeroAleatorio(); // Regenera el número al reiniciar
     };
 
     const escribirNumero = (e) => {
-        if (filaVictoria !== null) {
+        if (filaVictoria !== null || desactivados.includes(Number(e.target.innerHTML))) {
             return;
         }
 
@@ -118,6 +119,14 @@ const Juego = () => {
         }
     };
 
+    // Maneja el clic derecho para alternar el estado de desactivación de un número
+    const toggleDesactivado = (e, num) => {
+        e.preventDefault();
+        setDesactivados((prev) =>
+            prev.includes(num) ? prev.filter((n) => n !== num) : [...prev, num]
+        );
+    };
+
     return (
         <>
             <MagicMotion>
@@ -130,7 +139,7 @@ const Juego = () => {
                         </div>
                         <DarkMode
                             isSeleccionado={isClaro}
-                            cambio={()=>setIsClaro(!isClaro)}
+                            cambio={() => setIsClaro(!isClaro)}
                         />
                     </aside>
 
@@ -148,49 +157,20 @@ const Juego = () => {
 
                     <div className='botones_numeros'>
                         <div className='botones_numeros_item'>
-                            {numeros.map(num => (
-                                <button key={num} onClick={escribirNumero}>{num}</button>
+                            {numeros.map((num) => (
+                                <button
+                                    key={num}
+                                    onClick={escribirNumero}
+                                    onContextMenu={(e) => toggleDesactivado(e, num)}
+                                    className={desactivados.includes(num) ? 'numero_desactivado' : ''}
+                                    disabled={desactivados.includes(num)}
+                                >
+                                    {num}
+                                </button>
                             ))}
                             <button onClick={borrarNumero}>Borrar</button>
                         </div>
                         <button onClick={enviarRespuesta} className='boton_enviar_numero' disabled={filaVictoria !== null}>Enviar</button>
-                    </div>
-
-                    <div className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>
-                            <h1>¡Derrota!</h1>
-                            <h2>Casi lo logras, el número secreto era: {numeroVictoria}</h2>
-                    
-                            <div className='inicio_dificultad'>
-                            <button 
-                                className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
-                                onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
-
-                            <button 
-                                className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
-                                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
-                            </div>
-
-                            <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
-                    </div>
-
-                    <div className={alertaVictoria ? 'alerta_victoria_activada' : 'alerta_victoria_desactivada'}>
-                        <h1>¡Victoria!</h1>
-                        <h2>
-                            {filaVictoria === 0 
-                                ? '¡Increíble! Adivinaste el número en el primer intento' 
-                                : `Adivinaste el número en ${filaVictoria + 1} intentos`}
-                        </h2>
-                        <div className='inicio_dificultad'>
-                            <button 
-                                className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
-                                onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
-
-                            <button 
-                                className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
-                                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
-                        </div>
-
-                        <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
                     </div>
                 </section>
             </MagicMotion>
