@@ -15,11 +15,11 @@ const Cajas = ({ numeroUsuario, isAdivinado, feedback, isVictoria }) => {
         <>
         <MagicMotion>
             <div className='caja_fila'>
-                <div className='cajas'>
+                <div className={isVictoria ? 'cajas_ganadora' :  'cajas'}>
                     {new Array(4).fill(0).map((_, index) => (
                         <div
                             key={index}
-                            className='caja_item'
+                            className= 'caja_item'
                             style={isVictoria ? {
                             backgroundColor: 'green',
                             color: '#efefef',

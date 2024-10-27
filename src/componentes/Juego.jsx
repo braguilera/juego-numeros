@@ -118,7 +118,7 @@ const Juego = () => {
                                 numeroUsuario={index === filaActual ? miNumero : resultados[index]?.numero || []} 
                                 isAdivinado={index < filaActual}
                                 feedback={resultados.find(r => r.fila === index)?.feedback || { bien: 0, regular: 0, mal: 0 }}
-                                isVictoria={index === filaVictoria} // Aplicar estilo solo a fila ganadora
+                                isVictoria={index === filaVictoria}
                             />
                         ))}
                     </div>
@@ -134,6 +134,7 @@ const Juego = () => {
                     </div>
                     
                     <div className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>Perdiste</div>
+                    
                     <div className={filaVictoria !== null ? 'alerta_victoria_activada' : 'alerta_victoria_desactivada'}>Ganaste</div>
                 </section>
             </MagicMotion>
