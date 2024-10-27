@@ -14,6 +14,7 @@ const Juego = () => {
     const [alertaDerrota, setAlertaDerrota] = useState(false);
     const [alertaVictoria, setAlertaVictoria] = useState(false);
     const [filaVictoria, setFilaVictoria] = useState(null);
+    const [numeroVictoria, setNumeroVictoria] = useState();
 
     useEffect(() => {
         generarNumeroAleatorio();
@@ -31,6 +32,7 @@ const Juego = () => {
             nuevosNumeros = Array.from(uniqueDigits);
         }
         setAzar(nuevosNumeros);
+
     };
 
     const seleccionarDificultad = (dificultadSeleccionada) => {
@@ -110,6 +112,7 @@ const Juego = () => {
 
             if (filaActual === 9 && bien !== 4) {
                 setAlertaDerrota(true);
+                setNumeroVictoria(azar)
             }
         }
     };
@@ -150,14 +153,29 @@ const Juego = () => {
                         <button onClick={enviarRespuesta} className='boton_enviar_numero' disabled={filaVictoria !== null}>Enviar</button>
                     </div>
 
-                    <div className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>Perdiste</div>
+                    <div className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}>
+                            <h1>Derrota</h1>
+                            <h2>¡Casi lo logras! El número secreto era: {numeroVictoria}</h2>
+                    
+                            <div className='inicio_dificultad'>
+                            <button 
+                                className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
+                                onClick={() => seleccionarDificultad('repeticion')}>Con números repetidos</button>
+
+                            <button 
+                                className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
+                                onClick={() => seleccionarDificultad('sinRepeticion')}>Sin números repetidos</button>
+                            </div>
+
+                            <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
+                    </div>
 
                     <div className={alertaVictoria ? 'alerta_victoria_activada' : 'alerta_victoria_desactivada'}>
-                        <h1>¡Increíble!</h1>
+                        <h1>Victoria</h1>
                         <h2>
                             {filaVictoria === 0 
                                 ? '¡Adivinaste el número en el primer intento!' 
-                                : `¡Adivinaste el número en ${filaVictoria + 1} intentos!`}
+                                : `¡Increíble! ¡Adivinaste el número en ${filaVictoria + 1} intentos!`}
                         </h2>
                         <div className='inicio_dificultad'>
                             <button 
