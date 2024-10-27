@@ -3,6 +3,16 @@
   position: relative;
 }
 
+:root{
+  --color-bg: #131416;
+  --color-bt-principal: #4B83C1;
+  --color-claro-principal: #f5f4f4;
+  --color-gris-principal: #5c5c5c;
+  --color-gris-secundario:#818181;
+  --numero-principal: #424242;
+  --numero-secundario: #EFEFEF;
+}
+
 /* Inicio */
 
 .inicio{

@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Contexto from '../contexto/Contexto';
 import { MagicMotion } from 'react-magic-motion';
-import signoPregunta from '../iconos/pregunta.svg'
 
 const Inicio = () => {
     const navegacion = useNavigate();
