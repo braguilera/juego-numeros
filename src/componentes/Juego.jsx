@@ -174,7 +174,6 @@ const Juego = () => {
                             isSeleccionado={isClaro}
                             cambio={()=>setIsClaro(!isClaro)}
                         />
-                        {azar}
                     </aside>
 
                     <div className='cajas_contenedor'>
