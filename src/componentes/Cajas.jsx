@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Contexto from '../contexto/Contexto';
-import { MagicMotion } from 'react-magic-motion';
+import { motion } from 'react-magic-motion';
 
 const Cajas = ({ numeroUsuario, isAdivinado, feedback, isVictoria }) => {
     const { isClaro } = useContext(Contexto);
@@ -17,11 +17,13 @@ const Cajas = ({ numeroUsuario, isAdivinado, feedback, isVictoria }) => {
 
     return (
         <>
-        <MagicMotion>
             <div className='caja_fila'>
                 <div className={isVictoria ? 'cajas_ganadora' :  'cajas'}>
                     {new Array(4).fill(0).map((_, index) => (
-                        <div
+                        <motion.div
+                            initial={{scale:0}}
+                            animate={{scale:1}}
+                            transition={{delay: index * 0.02}}
                             key={index}
                             className= 'caja_item'
                             style={isVictoria ? {
@@ -32,7 +34,7 @@ const Cajas = ({ numeroUsuario, isAdivinado, feedback, isVictoria }) => {
                             : estilo }
                         >
                             {numeroUsuario[index]}
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
@@ -42,7 +44,6 @@ const Cajas = ({ numeroUsuario, isAdivinado, feedback, isVictoria }) => {
                     <div style={{ backgroundColor: 'red', fontWeight: 'bold' }}>{feedback.mal}</div>
                 </div>
             </div>
-        </MagicMotion>
         </>
     );
 };

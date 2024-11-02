@@ -160,7 +160,6 @@ const Juego = () => {
 
     return (
         <>
-            <MagicMotion>
                 <section className='juego' data-theme={isClaro ? "light" : "dark"}>
                     <aside className='juego_header'>
                         <button onClick={() => navegacion('/')}>Volver</button>
@@ -172,6 +171,7 @@ const Juego = () => {
                             isSeleccionado={isClaro}
                             cambio={()=>setIsClaro(!isClaro)}
                         />
+                        {azar}
                     </aside>
 
                     <div className='cajas_contenedor'>
@@ -241,7 +241,6 @@ const Juego = () => {
                         <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
                     </div>
                 </section>
-            </MagicMotion>
         </>
     );
 };
