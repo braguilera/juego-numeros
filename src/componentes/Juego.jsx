@@ -29,22 +29,20 @@ const Juego = () => {
         let nuevosNumeros;
     
         if (dificultad === 'repeticion') {
-            // Generar los primeros tres dígitos de manera aleatoria
             nuevosNumeros = [
                 Math.floor(Math.random() * 10),
                 Math.floor(Math.random() * 10),
                 Math.floor(Math.random() * 10)
             ];
             
-            // Escoger uno de los tres dígitos generados y repetirlo en la cuarta posición
+            // 3 numero aleatorios y uno repetido al final
             const indiceAleatorio = Math.floor(Math.random() * 3);
             nuevosNumeros.push(nuevosNumeros[indiceAleatorio]);
             
-            // Mezclar el array para que el dígito repetido no siempre quede en la última posición
+            // Mezclo para que no este siempre el repetido al final
             nuevosNumeros = nuevosNumeros.sort(() => Math.random() - 0.5);
     
         } else {
-            // Generación sin repetición
             const uniqueDigits = new Set();
             while (uniqueDigits.size < 4) {
                 uniqueDigits.add(Math.floor(Math.random() * 10));
@@ -69,7 +67,7 @@ const Juego = () => {
         setAlertaVictoria(false);
         setFilaVictoria(null);
         generarNumeroAleatorio();
-        setDesactivados([]) // Regenera el número al reiniciar
+        setDesactivados([])
     };
 
     const escribirNumero = (e) => {
@@ -99,37 +97,34 @@ const Juego = () => {
             let mal = 0;
             const contarNumeros = {};
         
-            // Contar las ocurrencias de cada número en el número secreto (azar)
+            // Contar cuantas veces aparece cada numero
             azar.forEach((num) => {
                 contarNumeros[num] = (contarNumeros[num] || 0) + 1;
             });
         
-            // Paso 1: Contar los aciertos exactos (bien)
+            // Contar bien
             miNumero.forEach((num, idx) => {
-                const parsedNum = parseInt(num);
+                const numero = parseInt(num);
         
-                if (parsedNum === azar[idx]) {
+                if (numero === azar[idx]) {
                     bien++;
-                    contarNumeros[parsedNum]--; // Reducir la cuenta ya que este número está en la posición correcta
+                    contarNumeros[numero]--;
                 }
             });
         
-            // Paso 2: Contar los números en posición incorrecta (regular) y los incorrectos (mal)
+            // Contar regular y mal
             miNumero.forEach((num, idx) => {
-                const parsedNum = parseInt(num);
+                const numero = parseInt(num);
         
-                // Solo procesar si no es un acierto exacto
-                if (parsedNum !== azar[idx]) {
-                    if (azar.includes(parsedNum) && contarNumeros[parsedNum] > 0) {
+                if (numero !== azar[idx]) {
+                    if (azar.includes(numero) && contarNumeros[numero] > 0) {
                         regular++;
-                        contarNumeros[parsedNum]--; // Reducir la cuenta ya que este número se ha usado como regular
+                        contarNumeros[numero]--; 
                     } else {
                         mal++;
                     }
                 }
             });
-        
-        
 
             if (bien === 4) {
                 setFilaVictoria(filaActual);
@@ -153,7 +148,7 @@ const Juego = () => {
         }
     };
 
-    // Maneja el clic derecho para alternar el estado de desactivación de un número
+    // Clic derecho para desactivar un número
     const toggleDesactivado = (e, num) => {
         e.preventDefault();
         setDesactivados((prev) =>
