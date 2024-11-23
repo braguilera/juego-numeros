@@ -19,6 +19,9 @@ const Juego = () => {
     const [filaVictoria, setFilaVictoria] = useState(null);
     const [numeroVictoria, setNumeroVictoria] = useState();
     const [desactivados, setDesactivados] = useState([]);
+    const [confirmacion, setConfirmacion] = useState(false);
+    const [mostrarNumero, setMostrarNumero] = useState(false);
+
 
 
     useEffect(() => {
@@ -156,6 +159,15 @@ const Juego = () => {
         );
     };
 
+    const finalizarPartida = () =>{
+
+        setAlertaDerrota(true);
+        setNumeroVictoria(azar)
+        setConfirmacion(false)
+
+    }
+
+
     return (
         <>
                 <section className='juego' data-theme={isClaro ? "light" : "dark"}>
@@ -172,6 +184,18 @@ const Juego = () => {
                     </aside>
 
                     <div className='cajas_contenedor'>
+
+                    <div 
+                        className="mostrar_numero" 
+                        onClick={()=> (mostrarNumero) ? setMostrarNumero(false) : setMostrarNumero(true)}
+                    >
+                        {mostrarNumero ? (
+                            <p>{azar}</p>
+                        ) : (
+                            <p>Haz clic para ver el número secreto</p>
+                        )}
+                    </div>
+
                         {[...Array(10)].map((_, index) => (
                             <Cajas
                                 key={index}
@@ -201,65 +225,95 @@ const Juego = () => {
                         <button onClick={enviarRespuesta} className='boton_enviar_numero' disabled={filaVictoria !== null}>Enviar</button>
                     </div>
 
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={alertaDerrota ? { scale: 1 } : { scale: 0 }}
-                        transition={{ duration: 0.3 }}
+                    <div className='boton_finalizar'>
+                        <button onClick={() => setConfirmacion(true)} >Finalizar partida</button>
+                    </div>
+
+                    <div
+                        className={confirmacion ? 'alerta_finalizar_activada' : 'alerta_finalizar_desactivada'}
+                    >
+                        <motion.div className='overlay_contenedor'
+                            initial={{ scale: 0 }}
+                            animate={confirmacion ? { scale: 1 } : { scale: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <h1>¿Estás seguro que quieres finalizar la partida?</h1>
+
+                            <div className='finalizar_botones'>
+                                <button className='boton_finalizar_aceptar' onClick={finalizarPartida} >Aceptar</button>
+                                <button className='boton_jugar' onClick={ () => setConfirmacion(false) }>Cancelar</button>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    <div
                         className={alertaDerrota ? 'alerta_derrota_activada' : 'alerta_derrota_desactivada'}
                     >
-                        <h1>¡Derrota!</h1>
-                        <h2>Casi lo logras, el número secreto era: {numeroVictoria}</h2>
-                        
-                        <div className='inicio_dificultad'>
-                            <button 
-                                className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
-                                onClick={() => seleccionarDificultad('repeticion')}
-                            >
-                                Con números repetidos
-                            </button>
+                        <motion.div className='overlay_contenedor'
+                            initial={{ scale: 0 }}
+                            animate={alertaDerrota ? { scale: 1 } : { scale: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <h1>¡Derrota!</h1>
+                            <h2>Casi lo logras, el número secreto era: {numeroVictoria}</h2>
+                            
+                            <div className='inicio_dificultad'>
+                                <button 
+                                    className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
+                                    onClick={() => seleccionarDificultad('repeticion')}
+                                >
+                                    Con números repetidos
+                                </button>
 
-                            <button 
-                                className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
-                                onClick={() => seleccionarDificultad('sinRepeticion')}
-                            >
-                                Sin números repetidos
-                            </button>
-                        </div>
+                                <button 
+                                    className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
+                                    onClick={() => seleccionarDificultad('sinRepeticion')}
+                                >
+                                    Sin números repetidos
+                                </button>
+                            </div>
 
-                        <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
-                    </motion.div>
+                            <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Jugar otra vez</button>
+                            <button className='volver_inicio' onClick={() => navegacion('/')}>Volver al inicio</button>
+                        </motion.div>
 
-                    <motion.div
-                        initial={{ scale: 0 }}
-                        animate={alertaVictoria ? { scale: 1 } : { scale: 0 }}
-                        transition={{ duration: 0.3 }}
+                    </div>
+
+                    <div
                         className={alertaVictoria ? 'alerta_victoria_activada' : 'alerta_victoria_desactivada'}
                     >
-                        <h1>¡Victoria!</h1>
-                        <h2>
-                            {filaVictoria === 0 
-                                ? '¡Increíble! Adivinaste el número en el primer intento' 
-                                : `Adivinaste el número en ${filaVictoria + 1} intentos`}
-                        </h2>
+                        <motion.div className='overlay_contenedor'
+                            initial={{ scale: 0 }}
+                            animate={alertaVictoria ? { scale: 1 } : { scale: 0 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <h1>¡Victoria!</h1>
+                            <h2>
+                                {filaVictoria === 0 
+                                    ? '¡Increíble! Adivinaste el número en el primer intento' 
+                                    : `Adivinaste el número en ${filaVictoria + 1} intentos`}
+                            </h2>
+                            
+                            <div className='inicio_dificultad'>
+                                <button 
+                                    className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
+                                    onClick={() => seleccionarDificultad('repeticion')}
+                                >
+                                    Con números repetidos
+                                </button>
+
+                                <button 
+                                    className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
+                                    onClick={() => seleccionarDificultad('sinRepeticion')}
+                                >
+                                    Sin números repetidos
+                                </button>
+                            </div>
                         
-                        <div className='inicio_dificultad'>
-                            <button 
-                                className={dificultad === 'repeticion' ? 'boton_jugar_activado' : 'boton_jugar'} 
-                                onClick={() => seleccionarDificultad('repeticion')}
-                            >
-                                Con números repetidos
-                            </button>
-
-                            <button 
-                                className={dificultad === 'sinRepeticion' ? 'boton_jugar_activado' : 'boton_jugar'}  
-                                onClick={() => seleccionarDificultad('sinRepeticion')}
-                            >
-                                Sin números repetidos
-                            </button>
-                        </div>
-
-                        <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Volver a Jugar</button>
-                    </motion.div>
+                            <button className='boton_iniciar_partida' onClick={reiniciarJuego}>Jugar otra vez</button>
+                            <button className='volver_inicio' onClick={() => navegacion('/')}>Volver al inicio</button>
+                        </motion.div>
+                    </div>
                 </section>
         </>
     );
